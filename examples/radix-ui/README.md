@@ -1,6 +1,7 @@
-# Radix UI Example
+# Chakra UI Example
 
-This example showcases a few basic Radix UI components
+This example showcases a responsive interface built with Chakra UI, including
+menus, checkboxes, radio groups, cards, and responsive style props.
 
 ## Deploy your own
 

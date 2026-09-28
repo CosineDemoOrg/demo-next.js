@@ -1,75 +1,80 @@
 "use client";
+
 import { useState } from "react";
 import {
-  HamburgerMenuIcon,
-  DotFilledIcon,
-  CheckIcon,
-  ChevronRightIcon,
-} from "@radix-ui/react-icons";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+  Badge,
+  Box,
+  Button,
+  Card,
+  Checkbox,
+  Container,
+  Flex,
+  Grid,
+  Heading,
+  HStack,
+  Icon,
+  Menu,
+  RadioGroup,
+  Separator,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 
-function RightSlot({ children }) {
+const shortcuts = [
+  { label: "New tab", keys: "⌘ T" },
+  { label: "New window", keys: "⌘ N" },
+  { label: "New private window", keys: "⇧ ⌘ N", disabled: true },
+];
+
+const contributors = [
+  { label: "Pedro Sanchez", value: "pedro" },
+  { label: "Pablo Sanchez", value: "pablo" },
+];
+
+function MenuIcon() {
   return (
-    <div className="ml-auto pl-4 text-gray-500 group-hover:text-gray-200">
-      {children}
-    </div>
+    <Icon aria-hidden="true" boxSize="5" viewBox="0 0 24 24">
+      <path
+        d="M4 7h16M4 12h16M4 17h16"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2"
+      />
+    </Icon>
   );
 }
 
-function DropdownMenuItem({ children, ...props }) {
+function ArrowIcon() {
   return (
-    <DropdownMenu.Item
-      {...props}
-      className={
-        "group bg-white hover:bg-gray-700 hover:text-gray-200 text-xs rounded flex items-center h-6 px-1 pl-6 relative select-none" +
-        (props.disabled ? " text-gray-500" : "")
-      }
-    >
-      {children}
-    </DropdownMenu.Item>
+    <Icon aria-hidden="true" boxSize="4" viewBox="0 0 24 24">
+      <path
+        d="m9 18 6-6-6-6"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </Icon>
   );
 }
 
-function DropdownMenuCheckboxItem({ children, ...props }) {
+function FeatureIcon({ children }: { children: React.ReactNode }) {
   return (
-    <DropdownMenu.CheckboxItem
-      {...props}
-      className="group bg-white hover:bg-gray-700 hover:text-gray-200 text-xs rounded flex items-center h-6 px-1 pl-6 relative select-none"
+    <Flex
+      align="center"
+      bg="purple.100"
+      borderRadius="xl"
+      color="purple.700"
+      fontSize="xl"
+      h="11"
+      justify="center"
+      w="11"
     >
       {children}
-    </DropdownMenu.CheckboxItem>
-  );
-}
-
-function DropdownMenuItemIndicator({ children, ...props }) {
-  return (
-    <DropdownMenu.ItemIndicator
-      {...props}
-      className="absolute left-0 w-6 inline-flex items-center justify-center"
-    >
-      {children}
-    </DropdownMenu.ItemIndicator>
-  );
-}
-
-function Separator() {
-  return <DropdownMenu.Separator className="h-[1px] bg-gray-300 m-1" />;
-}
-
-function DropdownMenuRadioItem({
-  children,
-  ...props
-}: {
-  children: React.ReactNode;
-  value: string;
-}) {
-  return (
-    <DropdownMenu.RadioItem
-      {...props}
-      className="bg-white hover:bg-gray-700 hover:text-gray-200 text-xs rounded flex items-center h-6 px-1 pl-6 relative select-none"
-    >
-      {children}
-    </DropdownMenu.RadioItem>
+    </Flex>
   );
 }
 
@@ -77,100 +82,363 @@ export default function Home() {
   const [bookmarksChecked, setBookmarksChecked] = useState(true);
   const [urlsChecked, setUrlsChecked] = useState(false);
   const [person, setPerson] = useState("pedro");
+
   return (
-    <div className="h-screen w-full flex flex-col space-y-4 items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500">
-      <h1 className="text-6xl text-white font-semibold">
-        Radix UI + Tailwind CSS
-      </h1>
-      <h1 className="text-4xl text-white font-semibold">Click me!</h1>
+    <Box
+      bg="gray.950"
+      color="white"
+      minH="100vh"
+      overflow="hidden"
+      position="relative"
+    >
+      <Box
+        bg="purple.500"
+        borderRadius="full"
+        filter="blur(120px)"
+        h={{ base: "72", md: "96" }}
+        left="-32"
+        opacity="0.28"
+        position="absolute"
+        top="-32"
+        w={{ base: "72", md: "96" }}
+      />
+      <Box
+        bg="cyan.400"
+        borderRadius="full"
+        bottom="-48"
+        filter="blur(140px)"
+        h="96"
+        opacity="0.18"
+        position="absolute"
+        right="-32"
+        w="96"
+      />
 
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger
-          asChild
-          className="bg-white text-xs rounded-3xl flex items-center h-8 px-2 relative select-none"
-        >
-          <button
-            aria-label="Customise options"
-            className="h-8 w-8 inline-flex items-center justify-center shadow-lg"
-          >
-            <HamburgerMenuIcon />
-          </button>
-        </DropdownMenu.Trigger>
-
-        <DropdownMenu.Content
-          sideOffset={5}
-          className="bg-white rounded p-1 shadow-lg"
-        >
-          <DropdownMenuItem>
-            New Tab <RightSlot>⌘+T</RightSlot>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            New Window <RightSlot>⌘+N</RightSlot>
-          </DropdownMenuItem>
-          <DropdownMenuItem disabled>
-            New Private Window <RightSlot>⇧+⌘+N</RightSlot>
-          </DropdownMenuItem>
-          <DropdownMenu.Sub>
-            <DropdownMenu.SubTrigger className="group bg-white hover:bg-gray-700 hover:text-gray-200 hover:border-0 text-xs rounded flex items-center h-6 px-1 pl-6 relative select-none">
-              More Tools
-              <RightSlot>
-                <ChevronRightIcon />
-              </RightSlot>
-            </DropdownMenu.SubTrigger>
-            <DropdownMenu.SubContent
-              sideOffset={2}
-              alignOffset={-5}
-              className="bg-white rounded p-1 shadow-lg"
+      <Container maxW="6xl" position="relative" py={{ base: "8", md: "12" }}>
+        <Flex align="center" justify="space-between">
+          <HStack gap="3">
+            <Flex
+              align="center"
+              bg="purple.400"
+              borderRadius="lg"
+              color="gray.950"
+              fontWeight="bold"
+              h="9"
+              justify="center"
+              w="9"
             >
-              <DropdownMenuItem>
-                Save Page As… <RightSlot>⌘+S</RightSlot>
-              </DropdownMenuItem>
-              <DropdownMenuItem>Create Shortcut…</DropdownMenuItem>
-              <DropdownMenuItem>Name Window…</DropdownMenuItem>
-              <Separator />
-              <DropdownMenuItem>Developer Tools</DropdownMenuItem>
-            </DropdownMenu.SubContent>
-          </DropdownMenu.Sub>
-          <Separator />
-          <DropdownMenuCheckboxItem
-            checked={bookmarksChecked}
-            onCheckedChange={setBookmarksChecked}
+              C
+            </Flex>
+            <Text fontSize="sm" fontWeight="semibold" letterSpacing="wide">
+              CHAKRA EXAMPLE
+            </Text>
+          </HStack>
+          <Badge
+            bg="whiteAlpha.100"
+            borderColor="whiteAlpha.300"
+            borderRadius="full"
+            borderWidth="1px"
+            color="purple.200"
+            px="3"
+            py="1"
           >
-            <DropdownMenuItemIndicator>
-              <CheckIcon />
-            </DropdownMenuItemIndicator>
-            Show Bookmarks <RightSlot>⌘+B</RightSlot>
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
-            checked={urlsChecked}
-            onCheckedChange={setUrlsChecked}
-          >
-            <DropdownMenuItemIndicator>
-              <CheckIcon />
-            </DropdownMenuItemIndicator>
-            Show Full URLs
-          </DropdownMenuCheckboxItem>
-          <Separator />
-          <DropdownMenu.Label className="pl-6 leading-6 text-xs text-gray-700">
-            Contributors
-          </DropdownMenu.Label>
+            Next.js App Router
+          </Badge>
+        </Flex>
 
-          <DropdownMenu.RadioGroup value={person} onValueChange={setPerson}>
-            <DropdownMenuRadioItem value="pedro">
-              <DropdownMenuItemIndicator>
-                <DotFilledIcon />
-              </DropdownMenuItemIndicator>
-              Pedro Sanchez
-            </DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="pablo">
-              <DropdownMenuItemIndicator>
-                <DotFilledIcon />
-              </DropdownMenuItemIndicator>
-              Pablo Sanchez
-            </DropdownMenuRadioItem>
-          </DropdownMenu.RadioGroup>
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
-    </div>
+        <Grid
+          alignItems="center"
+          gap={{ base: "12", lg: "20" }}
+          minH={{ base: "auto", lg: "calc(100vh - 132px)" }}
+          py={{ base: "20", md: "28" }}
+          templateColumns={{ base: "1fr", lg: "1.08fr 0.92fr" }}
+        >
+          <Stack gap="8">
+            <Stack gap="5">
+              <Badge
+                alignSelf="flex-start"
+                bg="purple.400"
+                borderRadius="full"
+                color="gray.950"
+                px="3"
+                py="1"
+              >
+                Tailwind-free
+              </Badge>
+              <Heading
+                fontSize={{ base: "5xl", md: "7xl" }}
+                letterSpacing="tight"
+                lineHeight="0.98"
+                maxW="3xl"
+              >
+                Build polished interfaces with{" "}
+                <Box as="span" color="purple.300">
+                  Chakra UI.
+                </Box>
+              </Heading>
+              <Text
+                color="whiteAlpha.700"
+                fontSize={{ base: "lg", md: "xl" }}
+                lineHeight="tall"
+                maxW="2xl"
+              >
+                A complete migration showing responsive layout, accessible
+                controls, design tokens, and stateful components in one focused
+                Next.js example.
+              </Text>
+            </Stack>
+
+            <HStack flexWrap="wrap" gap="3">
+              <Menu.Root>
+                <Menu.Trigger asChild>
+                  <Button
+                    bg="purple.400"
+                    color="gray.950"
+                    size="lg"
+                    _hover={{ bg: "purple.300" }}
+                  >
+                    <MenuIcon />
+                    Open command menu
+                  </Button>
+                </Menu.Trigger>
+                <Menu.Positioner>
+                  <Menu.Content
+                    bg="gray.900"
+                    borderColor="whiteAlpha.200"
+                    borderWidth="1px"
+                    color="white"
+                    minW="72"
+                    p="2"
+                  >
+                    {shortcuts.map((shortcut) => (
+                      <Menu.Item
+                        key={shortcut.label}
+                        disabled={shortcut.disabled}
+                        value={shortcut.label}
+                      >
+                        <Flex justify="space-between" w="full">
+                          <Text>{shortcut.label}</Text>
+                          <Text color="whiteAlpha.500" fontSize="xs">
+                            {shortcut.keys}
+                          </Text>
+                        </Flex>
+                      </Menu.Item>
+                    ))}
+                    <Menu.Root positioning={{ placement: "right-start" }}>
+                      <Menu.TriggerItem>
+                        More tools
+                        <ArrowIcon />
+                      </Menu.TriggerItem>
+                      <Menu.Positioner>
+                        <Menu.Content
+                          bg="gray.900"
+                          borderColor="whiteAlpha.200"
+                          borderWidth="1px"
+                          color="white"
+                        >
+                          <Menu.Item value="save-page">
+                            Save page as…
+                          </Menu.Item>
+                          <Menu.Item value="shortcut">
+                            Create shortcut…
+                          </Menu.Item>
+                          <Menu.Item value="developer-tools">
+                            Developer tools
+                          </Menu.Item>
+                        </Menu.Content>
+                      </Menu.Positioner>
+                    </Menu.Root>
+                    <Menu.Separator />
+                    <Menu.CheckboxItem
+                      checked={bookmarksChecked}
+                      onCheckedChange={setBookmarksChecked}
+                      value="bookmarks"
+                    >
+                      <Menu.ItemIndicator />
+                      Show bookmarks
+                      <Menu.ItemCommand>⌘ B</Menu.ItemCommand>
+                    </Menu.CheckboxItem>
+                    <Menu.CheckboxItem
+                      checked={urlsChecked}
+                      onCheckedChange={setUrlsChecked}
+                      value="full-urls"
+                    >
+                      <Menu.ItemIndicator />
+                      Show full URLs
+                    </Menu.CheckboxItem>
+                    <Menu.Separator />
+                    <Menu.RadioItemGroup
+                      onValueChange={(details) => setPerson(details.value)}
+                      value={person}
+                    >
+                      {contributors.map((contributor) => (
+                        <Menu.RadioItem
+                          key={contributor.value}
+                          value={contributor.value}
+                        >
+                          <Menu.ItemIndicator />
+                          {contributor.label}
+                        </Menu.RadioItem>
+                      ))}
+                    </Menu.RadioItemGroup>
+                  </Menu.Content>
+                </Menu.Positioner>
+              </Menu.Root>
+              <Button
+                asChild
+                color="white"
+                size="lg"
+                variant="outline"
+                _hover={{ bg: "whiteAlpha.100" }}
+              >
+                <a
+                  href="https://chakra-ui.com"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Explore Chakra UI
+                </a>
+              </Button>
+            </HStack>
+          </Stack>
+
+          <Card.Root
+            bg="whiteAlpha.100"
+            borderColor="whiteAlpha.200"
+            borderRadius="3xl"
+            borderWidth="1px"
+            boxShadow="0 32px 80px rgba(0, 0, 0, 0.35)"
+            color="white"
+            overflow="hidden"
+          >
+            <Card.Header pb="4">
+              <Flex align="center" justify="space-between">
+                <Box>
+                  <Card.Title fontSize="xl">Interface preferences</Card.Title>
+                  <Card.Description color="whiteAlpha.600">
+                    Controls composed with Chakra primitives
+                  </Card.Description>
+                </Box>
+                <HStack gap="1.5">
+                  {["red.400", "yellow.400", "green.400"].map((color) => (
+                    <Box
+                      key={color}
+                      bg={color}
+                      borderRadius="full"
+                      h="2.5"
+                      w="2.5"
+                    />
+                  ))}
+                </HStack>
+              </Flex>
+            </Card.Header>
+            <Separator borderColor="whiteAlpha.200" />
+            <Card.Body gap="7">
+              <Stack gap="5">
+                <Text
+                  color="whiteAlpha.500"
+                  fontSize="xs"
+                  fontWeight="semibold"
+                  letterSpacing="widest"
+                >
+                  BROWSER OPTIONS
+                </Text>
+                <Checkbox.Root
+                  checked={bookmarksChecked}
+                  onCheckedChange={(details) =>
+                    setBookmarksChecked(!!details.checked)
+                  }
+                >
+                  <Checkbox.HiddenInput />
+                  <Checkbox.Control />
+                  <Checkbox.Label>Show bookmarks bar</Checkbox.Label>
+                </Checkbox.Root>
+                <Checkbox.Root
+                  checked={urlsChecked}
+                  onCheckedChange={(details) =>
+                    setUrlsChecked(!!details.checked)
+                  }
+                >
+                  <Checkbox.HiddenInput />
+                  <Checkbox.Control />
+                  <Checkbox.Label>Always show full URLs</Checkbox.Label>
+                </Checkbox.Root>
+              </Stack>
+
+              <Separator borderColor="whiteAlpha.200" />
+
+              <Stack gap="4">
+                <Text
+                  color="whiteAlpha.500"
+                  fontSize="xs"
+                  fontWeight="semibold"
+                  letterSpacing="widest"
+                >
+                  ACTIVE CONTRIBUTOR
+                </Text>
+                <RadioGroup.Root
+                  onValueChange={(details) => setPerson(details.value)}
+                  value={person}
+                >
+                  <Stack gap="3">
+                    {contributors.map((contributor) => (
+                      <RadioGroup.Item
+                        key={contributor.value}
+                        value={contributor.value}
+                      >
+                        <RadioGroup.ItemHiddenInput />
+                        <RadioGroup.ItemIndicator />
+                        <RadioGroup.ItemText>
+                          {contributor.label}
+                        </RadioGroup.ItemText>
+                      </RadioGroup.Item>
+                    ))}
+                  </Stack>
+                </RadioGroup.Root>
+              </Stack>
+            </Card.Body>
+          </Card.Root>
+        </Grid>
+
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap="4" pb="10">
+          {[
+            {
+              icon: "01",
+              title: "Style props",
+              description: "Responsive values live beside the components.",
+            },
+            {
+              icon: "02",
+              title: "Accessible by default",
+              description: "Keyboard and screen reader behavior is built in.",
+            },
+            {
+              icon: "03",
+              title: "Composable",
+              description: "Small primitives combine into complete interfaces.",
+            },
+          ].map((feature) => (
+            <HStack
+              key={feature.title}
+              align="flex-start"
+              bg="whiteAlpha.50"
+              borderColor="whiteAlpha.200"
+              borderRadius="2xl"
+              borderWidth="1px"
+              gap="4"
+              p="5"
+            >
+              <FeatureIcon>{feature.icon}</FeatureIcon>
+              <Box>
+                <Text fontWeight="semibold">{feature.title}</Text>
+                <Text color="whiteAlpha.600" fontSize="sm" mt="1">
+                  {feature.description}
+                </Text>
+              </Box>
+            </HStack>
+          ))}
+        </SimpleGrid>
+      </Container>
+    </Box>
   );
 }
