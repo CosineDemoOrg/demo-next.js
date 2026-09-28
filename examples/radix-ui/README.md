@@ -1,6 +1,6 @@
-# Radix UI Example
+# Radix UI with Chakra UI Example
 
-This example showcases a few basic Radix UI components
+This example showcases Radix UI interaction primitives styled with Chakra UI.
 
 ## Deploy your own
 

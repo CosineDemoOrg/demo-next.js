@@ -1,6 +1,14 @@
 "use client";
 import { useState } from "react";
 import {
+  Box,
+  Heading,
+  IconButton,
+  Text,
+  VStack,
+  chakra,
+} from "@chakra-ui/react";
+import {
   HamburgerMenuIcon,
   DotFilledIcon,
   CheckIcon,
@@ -8,52 +16,82 @@ import {
 } from "@radix-ui/react-icons";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
+const MenuContent = chakra(DropdownMenu.Content);
+const MenuItem = chakra(DropdownMenu.Item);
+const MenuCheckboxItem = chakra(DropdownMenu.CheckboxItem);
+const MenuItemIndicator = chakra(DropdownMenu.ItemIndicator);
+const MenuSeparator = chakra(DropdownMenu.Separator);
+const MenuSubTrigger = chakra(DropdownMenu.SubTrigger);
+const MenuSubContent = chakra(DropdownMenu.SubContent);
+const MenuLabel = chakra(DropdownMenu.Label);
+const MenuRadioItem = chakra(DropdownMenu.RadioItem);
+
+const interactiveItemStyles = {
+  alignItems: "center",
+  bg: "white",
+  borderRadius: "sm",
+  color: "gray.800",
+  cursor: "default",
+  display: "flex",
+  fontSize: "xs",
+  h: "7",
+  outline: "none",
+  pe: "2",
+  ps: "7",
+  position: "relative",
+  userSelect: "none",
+  _highlighted: {
+    bg: "blue.600",
+    color: "white",
+  },
+  _disabled: {
+    color: "gray.400",
+    pointerEvents: "none",
+  },
+};
+
 function RightSlot({ children }) {
   return (
-    <div className="ml-auto pl-4 text-gray-500 group-hover:text-gray-200">
+    <Box as="span" color="currentColor" ms="auto" ps="4" opacity="0.7">
       {children}
-    </div>
+    </Box>
   );
 }
 
 function DropdownMenuItem({ children, ...props }) {
   return (
-    <DropdownMenu.Item
-      {...props}
-      className={
-        "group bg-white hover:bg-gray-700 hover:text-gray-200 text-xs rounded flex items-center h-6 px-1 pl-6 relative select-none" +
-        (props.disabled ? " text-gray-500" : "")
-      }
-    >
+    <MenuItem {...interactiveItemStyles} {...props}>
       {children}
-    </DropdownMenu.Item>
+    </MenuItem>
   );
 }
 
 function DropdownMenuCheckboxItem({ children, ...props }) {
   return (
-    <DropdownMenu.CheckboxItem
-      {...props}
-      className="group bg-white hover:bg-gray-700 hover:text-gray-200 text-xs rounded flex items-center h-6 px-1 pl-6 relative select-none"
-    >
+    <MenuCheckboxItem {...interactiveItemStyles} {...props}>
       {children}
-    </DropdownMenu.CheckboxItem>
+    </MenuCheckboxItem>
   );
 }
 
 function DropdownMenuItemIndicator({ children, ...props }) {
   return (
-    <DropdownMenu.ItemIndicator
+    <MenuItemIndicator
       {...props}
-      className="absolute left-0 w-6 inline-flex items-center justify-center"
+      alignItems="center"
+      display="inline-flex"
+      insetStart="0"
+      justifyContent="center"
+      position="absolute"
+      w="7"
     >
       {children}
-    </DropdownMenu.ItemIndicator>
+    </MenuItemIndicator>
   );
 }
 
 function Separator() {
-  return <DropdownMenu.Separator className="h-[1px] bg-gray-300 m-1" />;
+  return <MenuSeparator bg="gray.200" h="1px" m="1" />;
 }
 
 function DropdownMenuRadioItem({
@@ -64,12 +102,9 @@ function DropdownMenuRadioItem({
   value: string;
 }) {
   return (
-    <DropdownMenu.RadioItem
-      {...props}
-      className="bg-white hover:bg-gray-700 hover:text-gray-200 text-xs rounded flex items-center h-6 px-1 pl-6 relative select-none"
-    >
+    <MenuRadioItem {...interactiveItemStyles} {...props}>
       {children}
-    </DropdownMenu.RadioItem>
+    </MenuRadioItem>
   );
 }
 
@@ -78,28 +113,45 @@ export default function Home() {
   const [urlsChecked, setUrlsChecked] = useState(false);
   const [person, setPerson] = useState("pedro");
   return (
-    <div className="h-screen w-full flex flex-col space-y-4 items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500">
-      <h1 className="text-6xl text-white font-semibold">
-        Radix UI + Tailwind CSS
-      </h1>
-      <h1 className="text-4xl text-white font-semibold">Click me!</h1>
+    <VStack
+      bg="blue.600"
+      color="white"
+      gap="5"
+      justifyContent="center"
+      minH="100dvh"
+      px="6"
+      textAlign="center"
+    >
+      <Heading fontSize={{ base: "4xl", md: "6xl" }} fontWeight="semibold">
+        Radix UI + Chakra UI
+      </Heading>
+      <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="semibold">
+        Click me!
+      </Text>
 
       <DropdownMenu.Root>
-        <DropdownMenu.Trigger
-          asChild
-          className="bg-white text-xs rounded-3xl flex items-center h-8 px-2 relative select-none"
-        >
-          <button
-            aria-label="Customise options"
-            className="h-8 w-8 inline-flex items-center justify-center shadow-lg"
+        <DropdownMenu.Trigger asChild>
+          <IconButton
+            aria-label="Customize options"
+            bg="white"
+            borderRadius="full"
+            color="gray.800"
+            shadow="lg"
+            size="md"
+            _hover={{ bg: "gray.100" }}
           >
             <HamburgerMenuIcon />
-          </button>
+          </IconButton>
         </DropdownMenu.Trigger>
 
-        <DropdownMenu.Content
+        <MenuContent
           sideOffset={5}
-          className="bg-white rounded p-1 shadow-lg"
+          bg="white"
+          borderRadius="md"
+          color="gray.800"
+          minW="56"
+          p="1"
+          shadow="xl"
         >
           <DropdownMenuItem>
             New Tab <RightSlot>⌘+T</RightSlot>
@@ -111,16 +163,21 @@ export default function Home() {
             New Private Window <RightSlot>⇧+⌘+N</RightSlot>
           </DropdownMenuItem>
           <DropdownMenu.Sub>
-            <DropdownMenu.SubTrigger className="group bg-white hover:bg-gray-700 hover:text-gray-200 hover:border-0 text-xs rounded flex items-center h-6 px-1 pl-6 relative select-none">
+            <MenuSubTrigger {...interactiveItemStyles}>
               More Tools
               <RightSlot>
                 <ChevronRightIcon />
               </RightSlot>
-            </DropdownMenu.SubTrigger>
-            <DropdownMenu.SubContent
+            </MenuSubTrigger>
+            <MenuSubContent
               sideOffset={2}
               alignOffset={-5}
-              className="bg-white rounded p-1 shadow-lg"
+              bg="white"
+              borderRadius="md"
+              color="gray.800"
+              minW="48"
+              p="1"
+              shadow="xl"
             >
               <DropdownMenuItem>
                 Save Page As… <RightSlot>⌘+S</RightSlot>
@@ -129,7 +186,7 @@ export default function Home() {
               <DropdownMenuItem>Name Window…</DropdownMenuItem>
               <Separator />
               <DropdownMenuItem>Developer Tools</DropdownMenuItem>
-            </DropdownMenu.SubContent>
+            </MenuSubContent>
           </DropdownMenu.Sub>
           <Separator />
           <DropdownMenuCheckboxItem
@@ -151,9 +208,9 @@ export default function Home() {
             Show Full URLs
           </DropdownMenuCheckboxItem>
           <Separator />
-          <DropdownMenu.Label className="pl-6 leading-6 text-xs text-gray-700">
+          <MenuLabel color="gray.600" fontSize="xs" lineHeight="7" ps="7">
             Contributors
-          </DropdownMenu.Label>
+          </MenuLabel>
 
           <DropdownMenu.RadioGroup value={person} onValueChange={setPerson}>
             <DropdownMenuRadioItem value="pedro">
@@ -169,8 +226,8 @@ export default function Home() {
               Pablo Sanchez
             </DropdownMenuRadioItem>
           </DropdownMenu.RadioGroup>
-        </DropdownMenu.Content>
+        </MenuContent>
       </DropdownMenu.Root>
-    </div>
+    </VStack>
   );
 }
